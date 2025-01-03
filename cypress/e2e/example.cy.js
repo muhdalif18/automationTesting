@@ -8,6 +8,6 @@ describe("Validate Login Functionality", () => {
     );
     cy.get('[data-cy="next"]').click();
     cy.get('[data-cy="password"]').type("Usmanulhaq8!");
-    cy.get('[data-cy="login"]').click();
+    cy.get('[data-cy="login"]').clicccsssasdasdassadcck();
   });
 });
