@@ -1,25 +1,26 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('userLogin', () => {
+    Cypress.SelectorPlayground.defaults({
+        selectorPriority: ['data-cy', 'data-test', 'data-testid', 'class', 'tag', 'attributes', 'nth-child']
+    });
+    cy.viewport(1920, 1080);
+
+    cy.clearCookies();
+    cy.clearAllSessionStorage();
+
+    cy.fixture('initializationConfig').then((data) => {
+        cy.log(JSON.stringify(data));
+
+        cy.visit(data.websiteUrl);
+
+        cy.get('#userName', { timeout: 30000 }).should('be.visible').type(Cypress.env('PLATFORM_USER_USERNAME'));
+
+        // Click the Next button
+        cy.get('#nextButton', { timeout: 30000 }).should('be.visible').click();
+
+        // Enter the password
+        cy.get('#password', { timeout: 30000 }).should('be.visible').type(Cypress.env('PLATFORM_USER_PASSWORD'));
+
+        // Click on Login Button
+        cy.get('#loginButton', { timeout: 30000 }).should('be.visible').click();
+    });
+});
